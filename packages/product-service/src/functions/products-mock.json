@@ -1,0 +1,23 @@
+[
+  {
+    "id": "oneHundredYearsOfSolitude",
+    "title": "One Hundred Years of Solitude",
+    "author": "Gabriel Garcia Marquez",
+    "description": "One of the 20th century's enduring works, One Hundred Years of Solitude is a widely beloved and acclaimed novel known throughout the world, and the ultimate achievement in a Nobel Prize–winning car...",
+    "price": "200"
+  },
+  {
+    "id": "greatGatsby",
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "description": "The novel chronicles an era that Fitzgerald himself dubbed the \"Jazz Age\". Following the shock and chaos of World War I, American society enjoyed unprecedented levels of prosperity during the \"roar...",
+    "price": "400"
+  },
+  {
+    "id": "mobyDick",
+    "title": "Moby Dick",
+    "author": "Herman Melville",
+    "description": "First published in 1851, Melville's masterpiece is, in Elizabeth Hardwick's words, \"the greatest novel in American literature.\" The saga of Captain Ahab and his monomaniacal pursuit of the white wh...",
+    "price": "400"
+  }
+]

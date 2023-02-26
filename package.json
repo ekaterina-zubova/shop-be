@@ -1,0 +1,29 @@
+{
+  "name": "shop-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ekaterina-zubova/shop-be.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ekaterina-zubova/shop-be/issues"
+  },
+  "homepage": "https://github.com/ekaterina-zubova/shop-be#readme",
+  "dependencies": {
+    "lerna": "^6.5.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.4",
+    "serverless": "^3.20.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
