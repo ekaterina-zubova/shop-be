@@ -1,0 +1,104 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Shop services",
+    "description": "Shop services",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://a9lqongk8l.execute-api.eu-west-1.amazonaws.com/dev"
+    }
+  ],
+  "tags": [
+    {
+      "name": "product-service",
+      "description": "Product service"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "tags": ["products"],
+        "summary": "Get list of products",
+        "description": "Returns list of products",
+        "operationId": "getProducts",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      }
+    },
+    "/products/{productId}": {
+      "get": {
+        "tags": ["product by id"],
+        "summary": "Find product by ID",
+        "description": "Returns a single product",
+        "operationId": "getProductById",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of product to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "title": {
+            "type": "string",
+            "example": "Title"
+          },
+          "description": {
+            "type": "string",
+            "example": "description"
+          },
+          "price": {
+            "type": "string",
+            "example": "200"
+          }
+        }
+      }
+    }
+  }
+}
