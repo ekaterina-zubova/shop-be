@@ -17,10 +17,13 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
       NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000",
+      BOOKSHOP_PRODUCTS_TABLE: "${env:BOOKSHOP_PRODUCTS_TABLE}",
+      BOOKSHOP_STOCKS_TABLE: "${env:BOOKSHOP_STOCKS_TABLE}",
     },
     region: "eu-west-1",
     stage: "dev",
   },
+  useDotenv: true,
   // import the function via paths
   functions: { getProductList, getProductById },
   package: { individually: true },

@@ -1,7 +1,7 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from "@libs/api-gateway";
 import { formatJSONResponse } from "@libs/api-gateway";
 import { middyfy } from "@libs/lambda";
-import MOCK_PRODUCT_LIST from "@functions/products-mock.json";
+import { queryById } from "@db-service/db-service";
 
 import schema from "./schema";
 
@@ -10,10 +10,7 @@ const getProductById: ValidatedEventAPIGatewayProxyEvent<
 > = async (event) => {
   try {
     const { productId } = event.pathParameters;
-
-    const product = MOCK_PRODUCT_LIST.find(
-      (prod) => prod.id === productId
-    );
+    const product = await queryById(process.env.BOOKSHOP_PRODUCTS_TABLE, productId);
 
     if (!product) {
       return formatJSONResponse(
