@@ -1,5 +1,4 @@
 import AWS from "aws-sdk";
-import { v4 as uuidv4 } from "uuid";
 
 AWS.config.update({ region: "eu-west-1" });
 
@@ -11,6 +10,7 @@ export const getAllTableItems = async (tableName) => {
       TableName: tableName,
     })
     .promise();
+
   return scanResult.Items;
 };
 
@@ -28,17 +28,10 @@ export const queryById = async (table, id) => {
   return Items[0];
 };
 
-export const putItem = async (tableName, data) => {
+export const putItem = async (tableName, item) => {
   const params = {
     TableName: tableName,
-    Item: Object.assign(
-      {
-        id: uuidv4(),
-        title: data.title,
-      },
-      data.description ? { description: data.description } : null,
-      data.price ? { price: data.price } : null
-    ),
+    Item: item,
   };
 
   return ddb.put(params).promise();

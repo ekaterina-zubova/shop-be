@@ -1,5 +1,5 @@
 export default {
-  type: "string",
+  type: "object",
   properties: {
     id: { type: "string" },
     count: { type: "string" },
@@ -9,5 +9,5 @@ export default {
     logo: { type: "string" },
     author: { type: "string" },
   },
-  required: ["description", "price", "title"],
+  required: ["description", "price", "title", "count"],
 } as const;
