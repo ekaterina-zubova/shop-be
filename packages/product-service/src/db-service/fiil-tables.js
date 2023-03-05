@@ -17,47 +17,32 @@ const addItem = (params) => {
   });
 };
 
-const fillProductsTable = () => {
+const fillTables = () => {
   MOCK_PRODUCT_LIST.forEach(async (item) => {
-    const params = {
+    const productId = uuidv4();
+
+    const productsTableParams = {
       TableName: process.env.BOOKSHOP_PRODUCTS_TABLE,
       Item: {
-        id: { S: uuidv4() },
+        id: { S: productId },
         title: { S: item.title },
         description: { S: item.description },
         price: { N: item.price },
       },
     };
 
-    await addItem(params);
+    await addItem(productsTableParams);
+
+    const stocksTableParams = {
+      TableName: process.env.BOOKSHOP_STOCKS_TABLE,
+      Item: {
+        product_id: { S: productId },
+        count: { N: item.count },
+      },
+    };
+
+    await addItem(stocksTableParams);
   });
 };
 
-fillProductsTable();
-
-const fillStocksTable = () => {
-  ddb.scan(
-    {
-      TableName: process.env.BOOKSHOP_PRODUCTS_TABLE,
-    },
-    function (err, data) {
-      if (err) {
-        console.log("Error", err);
-      } else {
-        data.Items.forEach(async (element) => {
-          const params = {
-            TableName: process.env.BOOKSHOP_STOCKS_TABLE,
-            Item: {
-              product_id: { S: element.id.S },
-              count: { N: `${Math.floor(Math.random() * 10)}` },
-            },
-          };
-
-          await addItem(params);
-        });
-      }
-    }
-  );
-};
-
-fillStocksTable();
+fillTables();
