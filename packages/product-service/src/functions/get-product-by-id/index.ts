@@ -25,4 +25,5 @@ export default {
       },
     },
   ],
+  role: "arn:aws:iam::362343166865:role/DynamoDBLambdaAccessRole",
 };

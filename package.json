@@ -17,11 +17,17 @@
   },
   "homepage": "https://github.com/ekaterina-zubova/shop-be#readme",
   "dependencies": {
-    "lerna": "^6.5.1"
+    "aws-sdk": "^2.1328.0",
+    "dotenv": "^16.0.3",
+    "lerna": "^6.5.1",
+    "oas3-tools": "^2.2.3",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "connect": "^3.7.0",
     "prettier": "^2.8.4",
-    "serverless": "^3.20.0"
+    "serverless": "^3.20.0",
+    "swagger-tools": "^0.10.4"
   },
   "workspaces": [
     "packages/*"

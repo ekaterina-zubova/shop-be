@@ -1,22 +1,28 @@
 import { handlerPath } from "@libs/handler-resolver";
+import schema from "./schema";
 
 export default {
   handler: `${handlerPath(__dirname)}/handler.main`,
   events: [
     {
       http: {
-        method: "get",
+        method: "post",
         path: "products",
+        request: {
+          schemas: {
+            "application/json": schema,
+          },
+        },
         cors: {
           headers: [
             "Access-Control-Allow-Origin",
             "Access-Control-Request-Headers",
           ],
-          methods: ["GET" as "GET", "OPTIONS" as "OPTIONS"],
+          methods: ["POST" as "POST", "OPTIONS" as "OPTIONS"],
           origin: "*",
         },
       },
     },
   ],
-  role: "arn:aws:iam::362343166865:role/DynamoDBLambdaAccessRole"
+  role: "arn:aws:iam::362343166865:role/DynamoDBLambdaAccessRole",
 };
