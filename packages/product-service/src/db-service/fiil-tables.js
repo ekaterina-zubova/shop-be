@@ -49,7 +49,7 @@ const fillStocksTable = () => {
             TableName: process.env.BOOKSHOP_STOCKS_TABLE,
             Item: {
               product_id: { S: element.id.S },
-              count: { N: "002" },
+              count: { N: `${Math.floor(Math.random() * 10)}` },
             },
           };
 
