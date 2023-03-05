@@ -5,12 +5,14 @@ import { putItem } from "@db-service/db-service";
 import { v4 as uuidv4 } from "uuid";
 
 import schema from "./schema";
+import { logEvent } from "@libs/logger";
 
 const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
   event
 ) => {
+  const data = event.body;
+
   try {
-    const data = event.body;
     const productId = uuidv4();
     const product = {
       id: productId,
@@ -24,8 +26,20 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
       count: data.count,
     });
 
+    logEvent({
+      eventName: "createProduct",
+      result: "Product is created",
+      requestParams: JSON.stringify(data),
+    });
+
     return formatJSONResponse({}, 200, event.headers);
   } catch (error) {
+    logEvent({
+      eventName: "createProduct",
+      result: error.message,
+      requestParams: JSON.stringify(data),
+    });
+
     return formatJSONResponse(
       {
         message: error.message,
