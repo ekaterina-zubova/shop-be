@@ -18,7 +18,7 @@ const addItem = (params) => {
 };
 
 const fillProductsTable = () => {
-  MOCK_PRODUCT_LIST.forEach((item) => {
+  MOCK_PRODUCT_LIST.forEach(async (item) => {
     const params = {
       TableName: process.env.BOOKSHOP_PRODUCTS_TABLE,
       Item: {
@@ -29,7 +29,7 @@ const fillProductsTable = () => {
       },
     };
 
-    addItem(params);
+    await addItem(params);
   });
 };
 
@@ -44,7 +44,7 @@ const fillStocksTable = () => {
       if (err) {
         console.log("Error", err);
       } else {
-        data.Items.forEach(function (element) {
+        data.Items.forEach(async (element) => {
           const params = {
             TableName: process.env.BOOKSHOP_STOCKS_TABLE,
             Item: {
@@ -53,7 +53,7 @@ const fillStocksTable = () => {
             },
           };
 
-          addItem(params);
+          await addItem(params);
         });
       }
     }
