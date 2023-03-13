@@ -25,9 +25,9 @@ const importFileParser = async (event) => {
       await importService.deleteObject(s3, bucketName, objectKey);
 
       console.log(
-        `Lambda importFileParser. Transfer for the folder ${
+        `Lambda importFileParser. File transfer ${
           objectKey.split("/")[1]
-        } was done.`
+        } completed.`
       );
     } catch (error) {
       console.log("Lambda importFileParser. Moving files error: ", error);
