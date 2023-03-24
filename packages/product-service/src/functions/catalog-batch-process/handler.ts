@@ -1,7 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 import { putItem } from "@db-service/db-service";
+import AWS from "aws-sdk";
+import { AWS_REGION } from "../../constants/constants";
 
 const catalogBatchProcess = async (event) => {
+  const sns = new AWS.SNS({ region: AWS_REGION });
+
   console.log("Catalog batch process");
   try {
     console.log(event.Records, "Records");
@@ -24,6 +28,16 @@ const catalogBatchProcess = async (event) => {
         ["product_id"]: productId,
         count: data.count,
       });
+      sns.publish(
+        {
+          Subject: "New product has been created",
+          Message: JSON.stringify(product),
+          TopicArn: process.env.SNS_ARN,
+        },
+        (data) => {
+          console.log("sns message", data);
+        }
+      );
     }
     console.log(products, "products");
   } catch (error) {

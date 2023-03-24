@@ -22,6 +22,9 @@ const serverlessConfiguration: AWS = {
       BOOKSHOP_PRODUCTS_TABLE: "${env:BOOKSHOP_PRODUCTS_TABLE}",
       BOOKSHOP_STOCKS_TABLE: "${env:BOOKSHOP_STOCKS_TABLE}",
       SQS_URL: "SQSQueue",
+      SNS_ARN: {
+        Ref: "SNSTopic",
+      },
     },
     region: "eu-west-1",
     stage: "dev",
@@ -30,7 +33,12 @@ const serverlessConfiguration: AWS = {
         Effect: "Allow",
         Action: "sns:*",
         Resource: [{ "Fn::GetAtt": ["SQSQueue", "Arn"] }],
-      }
+      },
+      {
+        Effect: "Allow",
+        Action: "sns:*",
+        Resource: { Ref: "SNSTopic" },
+      },
     ],
   },
   useDotenv: true,
@@ -60,6 +68,22 @@ const serverlessConfiguration: AWS = {
         Type: "AWS::SQS::Queue",
         Properties: {
           QueueName: "catalogItemsQueue",
+        },
+      },
+      SNSTopic: {
+        Type: "AWS::SNS::Topic",
+        Properties: {
+          TopicName: "createProductTopic",
+        },
+      },
+      SNSSubscription: {
+        Type: "AWS::SNS::Subscription",
+        Properties: {
+          Endpoint: "vixert315@gmail.com",
+          Protocol: "email",
+          TopicArn: {
+            Ref: "SNSTopic",
+          },
         },
       },
     },
