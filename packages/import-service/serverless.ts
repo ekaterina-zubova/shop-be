@@ -7,6 +7,7 @@ const serverlessConfiguration: AWS = {
   service: "import-service",
   frameworkVersion: "3",
   plugins: ["serverless-esbuild"],
+  useDotenv: true,
   provider: {
     name: "aws",
     runtime: "nodejs14.x",
@@ -17,6 +18,8 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
       NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000",
+      SQS_URL: "${env:SQS_URL}",
+      SQS_ARN: "${env:SQS_ARN}"
     },
     region: "eu-west-1",
     stage: "dev",
@@ -30,6 +33,13 @@ const serverlessConfiguration: AWS = {
         Effect: "Allow",
         Action: "s3:*",
         Resource: ["arn:aws:s3:::import-files-service/*"],
+      },
+      {
+        Effect: "Allow",
+        Action: "sqs:*",
+        Resource: {
+          "Fn::ImportValue": "SQSQueueOutput",
+        },
       },
     ],
   },

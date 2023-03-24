@@ -7,11 +7,11 @@ export const getObject = async (s3, bucketName, objectKey) => {
   });
 };
 
-export const createReadStream = async (s3Object) => {
+export const createReadStream = async (s3Object, callback) => {
   s3Object
     .createReadStream()
     .pipe(csv())
-    .on("data", (data) => console.log(data));
+    .on("data", callback);
 
   return s3Object;
 };

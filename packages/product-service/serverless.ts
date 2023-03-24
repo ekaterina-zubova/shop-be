@@ -3,6 +3,7 @@ import type { AWS } from "@serverless/typescript";
 import { getProductList } from "@functions/index";
 import { getProductById } from "@functions/index";
 import { createProduct } from "@functions/index";
+import { catalogBatchProcess } from "@functions/index";
 
 const serverlessConfiguration: AWS = {
   service: "product-service",
@@ -20,13 +21,34 @@ const serverlessConfiguration: AWS = {
       NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000",
       BOOKSHOP_PRODUCTS_TABLE: "${env:BOOKSHOP_PRODUCTS_TABLE}",
       BOOKSHOP_STOCKS_TABLE: "${env:BOOKSHOP_STOCKS_TABLE}",
+      SQS_URL: "SQSQueue",
+      SNS_ARN: {
+        Ref: "SNSTopic",
+      },
     },
     region: "eu-west-1",
     stage: "dev",
+    iamRoleStatements: [
+      {
+        Effect: "Allow",
+        Action: "sns:*",
+        Resource: [{ "Fn::GetAtt": ["SQSQueue", "Arn"] }],
+      },
+      {
+        Effect: "Allow",
+        Action: "sns:*",
+        Resource: { Ref: "SNSTopic" },
+      },
+    ],
   },
   useDotenv: true,
   // import the function via paths
-  functions: { getProductList, getProductById, createProduct },
+  functions: {
+    getProductList,
+    getProductById,
+    createProduct,
+    catalogBatchProcess,
+  },
   package: { individually: true },
   custom: {
     esbuild: {
@@ -38,6 +60,40 @@ const serverlessConfiguration: AWS = {
       define: { "require.resolve": undefined },
       platform: "node",
       concurrency: 10,
+    },
+  },
+  resources: {
+    Resources: {
+      SQSQueue: {
+        Type: "AWS::SQS::Queue",
+        Properties: {
+          QueueName: "catalogItemsQueue",
+        },
+      },
+      SNSTopic: {
+        Type: "AWS::SNS::Topic",
+        Properties: {
+          TopicName: "createProductTopic",
+        },
+      },
+      SNSSubscription: {
+        Type: "AWS::SNS::Subscription",
+        Properties: {
+          Endpoint: "vixert315@gmail.com",
+          Protocol: "email",
+          TopicArn: {
+            Ref: "SNSTopic",
+          },
+        },
+      },
+    },
+    Outputs: {
+      SQSQueueOutput: {
+        Value: {
+          "Fn::GetAtt": ["SQSQueue", "Arn"],
+        },
+        Export: { Name: "SQSQueueOutput" },
+      },
     },
   },
 };
